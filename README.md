@@ -107,7 +107,7 @@ y = Dropout(.5)(y)
 y = Dense(1)(y)
 
 model = Model(input=img_input, output=y)
-model.compile(optimizer=Adam(lr=5e-5), loss = 'mse')
+model.compile(optimizer=Adam(lr=1e-4), loss = 'mse')
 ```
 ## Structure and Parameters
 | Layer | Size | Memory | # Parameters (Not Counting Bias) |
