@@ -75,7 +75,7 @@ For the first Round I used only the center camera data from Dataset 1 to train m
 
 I also applied these techniques:
   1.	Cropped the center camera images to be 280 X 640 (removed most of the image above the horizon line).
-  2.	Resized the images to 128 X 128. (Will discuss more in the model section)
+  2.	Resized the images to 128 X 128 (Will discuss more in the model section)
 
 ## Round 2
 For Round 2 the Dataset 2 had also been released. This gave us data that had significantly more turns. One important requirement of Round 2 was that the model would still beat the benchmark for the Round 1 test set. Taking this in mind, I did a lot of trials using different amounts of data from each Dataset (1 and 2) to see how the performance would vary on each test set. There was a lot of straight driving data and not a lot of data with turns, so I ended up removing several of the straight driving sections of data from Dataset 1. 
@@ -126,7 +126,7 @@ model.compile(optimizer=Adam(lr=1e-4), loss = 'mse')
 
 Based on the notes from Stanford's CS231n, this gives 8 MB (~2MB * 4 bytes) for each image on forward pass and 16 MB on the backward pass.  Using a batch size of 32, the max memory usage will be 512 MB during the backward pass.
 
-Over 99% of the parameters in this model are in the final FC layer. Comparing the structure and parameters to NVIDIA’s model, at nearly 34 million parameters, this model has significantly more parameters than NVIDIA’s. Even with the dropout and various image augmentation techniques this model still overfits. I implemented early-stopping and ‘save best only’ in keras to combat this:
+Over 99% of the parameters in this model are in the FC1 layer. Comparing the structure and parameters to NVIDIA’s model, at nearly 34 million parameters, this model has significantly more parameters than NVIDIA’s. Even with the dropout and various image augmentation techniques this model still overfits. I implemented early-stopping and ‘save best only’ in keras to combat this:
 ```
 callbacks = [EarlyStopping(monitor='val_loss', patience=3, verbose=0), 
                          ModelCheckpoint(filepath=os.path.join('weights_HMB_' + str(num_fold) + '.hdf5'), 
@@ -157,4 +157,4 @@ https://www.youtube.com/watch?v=EcS5JPSH-sI
 *Note that I did have to change the sign on the steering angles and scale them due to the wider road/lanes in the simulator. Would be interesting to see if a model only trained in the simulator or on a combination of simulator/real world data could outperform the current model.
 
 # Conclusions
-This was really fun and it sounds like Udacity is trying to go as far as they can with using image based techniques for their open source vehicle and will have similar competitions in the future. Hopefully this repository can serve at a launching point for other students to implement other approaches to improve the performance of this model. I’m looking forward to learning more skills in the Udacity course that I can implement.
+This was really fun and it sounds like Udacity is trying to go as far as they can with using image based techniques for their open source vehicle and will have similar competitions in the future. Hopefully this repository can serve as a launching point for other students to implement other approaches to improve the performance of this model. I’m looking forward to learning more skills in the Udacity course that I can implement.
