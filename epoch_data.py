@@ -6,6 +6,8 @@
 Calculates stats on dataset, performs image augmentation,
 and generates images/steerings to train, validate and test model
 Original By: dolaameng Revd By: cgundling
+*Note that steering shifts for left/right cameras is currently 
+commented out. Change line 323 to add back in.
 '''
 
 from __future__ import print_function
@@ -316,7 +318,7 @@ def data_generator(steering_log, image_log, image_folder, unique_list, gen_type=
         
         # Using all three cameras
         # ---------------------------------------------------------------------
-        # Reduce the amount of left/right camera usage
+        # Which camera to use (change line 323 if you want to use all)
         if gen_type == 'train':
             camera_select = 'center' #random.choice(camera)
 
