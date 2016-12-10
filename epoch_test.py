@@ -144,8 +144,8 @@ def main():
         callbacks = [EarlyStopping(monitor='val_loss', patience=3, verbose=0), 
                     ModelCheckpoint(filepath=os.path.join('weights_HMB_' + str(num_fold) + '.hdf5'), 
                     monitor='val_loss', verbose=0, save_best_only=True)]
-        model.fit_generator(train_generator, samples_per_epoch=800, nb_epoch=nb_epoch,verbose=1,
-                    callbacks=callbacks, validation_data=val_generator,nb_val_samples=320)
+        model.fit_generator(train_generator, samples_per_epoch=64000, nb_epoch=nb_epoch,verbose=1,
+                    callbacks=callbacks, validation_data=val_generator,nb_val_samples=1600)
 
         print('kfold model successfully trained...')
                 
