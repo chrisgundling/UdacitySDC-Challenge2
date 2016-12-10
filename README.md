@@ -10,12 +10,12 @@ https://medium.com/@maccallister.h/challenge-2-submission-guidelines-284ce6641c4
 # Running the Code in this Repository
 Once you have the data in the appropriate folder structure, you need epoch_data.py, epoch_model.py and epoch_test.py. Run the following command on CPU or GPU to start training a model:
 ```
-python epoch_test.py --dataset dataset/ --model cnn --nb-epoch 50 --resized-image-width 128 --resized-image-height 128
+python epoch_test.py --dataset dataset/ --model cnn --nb-epoch 50 --resized-image-height 128 --resized-image-width 128
 ```
 # Acknowledgements 
 First off I need to acknowledge dolaameng, rwightman and comma.ai. 
 - I used dolaameng’s code (https://github.com/dolaameng/udacity-SDC-baseline) as a starting point, which saved a lot of time initially.
-- rwightman’s reader (https://github.com/rwightman/udacity-driving-reader) for extracting the ROS .bag files was invaluable and I wouldn’t have been able to get the data without it.
+- rwightman’s reader (https://github.com/rwightman/udacity-driving-reader) for extracting the ROS .bag files was invaluable for this competition.
 - I modified comma.ai’s viewer (https://github.com/commaai/research) to create videos of the final test set.
 
 # Hardware
@@ -26,9 +26,12 @@ It sounded like a few of the teams had personal GPU setups, but my setup was pre
 
 ## Steps To Setup AWS
 1. Open an instance with Stanford's AMI and at least 40GB EBS Volume
-2. Upload the the .tar dataset using sftp
+2. Upload your dataset as a .tar using sftp
 3. Install Tensorflow: pip install https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-0.9.0rc0-cp27-none-linux_x86_64.whl
-4. Update Keras version and change backend to tensorflow: 
+  - I used tensorflow r0.9 because I knew it worked with Stanford's AMI with minimal changes
+4. Stanford's AMI has CUDA 7.5 and CuDNN v3 installed, but you need CuDNN v4 or higher for tensorflow
+  - Read about installing CuDNN v4 here: https://medium.com/@acrosson/installing-nvidia-cuda-cudnn-tensorflow-and-keras-69bbf33dce8a#.e0mlt5ic3
+5. Update Keras version and change backend to tensorflow: 
   - git clone https://github.com/fchollet/keras.git
   - cd keras
   - python setup.py install
