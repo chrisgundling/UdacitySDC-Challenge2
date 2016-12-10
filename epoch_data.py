@@ -252,7 +252,7 @@ def data_generator(steering_log, image_log, image_folder, unique_list, gen_type=
     print('min and max # of images per time unit: %d, %d' % minmax(map(len, image_stamps.values())))
     
     # Generate images and steerings within one time unit
-    # (Mean steering angles used for mulitple steering angels within a single unit)
+    # (Mean steering angles used when mulitple steering angels within a single time unit)
     # -----------------------------------------------------------------------------
     start = max(min(steerings.keys()), min(image_stamps.keys()))
     if timestamp_start:
