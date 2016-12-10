@@ -4,7 +4,7 @@ Code and writeup for Udacity Challenge 2 - Using Deep Learning to Predict Steeri
 # Intro
 What a challenge! There were great teams from all over the world who collaborated and competed to produce some impressive results. After talking with a number of students who were interested in Challenge #2 at the Udacity “Outside the Lines” event, I was motivated to put together a writeup describing the process that I used and the code I developed. I created Team Epoch, which finished 5th place in the Round 1 and 7th place in Round 2. My goal in posting this is to make it easier for more people to get involved.
 
-If you haven’t already, I would start by reading the Challenge description here: 
+If you haven’t already, I would start by reading the Challenge #2 description here: 
 https://medium.com/@maccallister.h/challenge-2-submission-guidelines-284ce6641c41#.p7d52u3o6
 
 # Running the Code in this Repository
