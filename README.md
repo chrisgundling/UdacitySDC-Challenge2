@@ -63,7 +63,7 @@ Just for clarity, here are all the steps that I took to get the data:
 If you make it through that process, then you are at least half way there!
 
 ## Exploration
-Each image and steering angle is associated with a certain timestamp. I copied dolaameng’s approach, which was to average the steering angles within each timestamp. The datasets were also somewhat cleaned by Udacity (stoplights and lane changes removed) so the timestamps were not continuous. Considering this, I wrote a script (data_explore.py) that plotted all of the steering angles for each consecutive series of timestamps.
+Each image and steering angle is associated with a certain timestamp. I copied dolaameng’s approach, which was to average the steering angles within each timestamp. The datasets were also somewhat cleaned by Udacity (stoplights and lane changes removed) so the timestamps were not continuous. I wrote a script (data_explore.py) that plotted all of the steering angles for each consecutive series of timestamps, so that I could further clean/select my training data.
 ![alt tag](https://github.com/chrisgundling/UdacitySDC-Challenge2/blob/master/Steering1.png)
 
 # Data Processing and Augmentation
