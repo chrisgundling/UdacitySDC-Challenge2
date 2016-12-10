@@ -28,7 +28,7 @@ It sounded like a few of the teams had personal GPU setups, but my setup was pre
 1. Open an instance with Stanford's AMI and at least 40GB EBS Volume
 2. Upload your dataset as a .tar using sftp
 3. Install Tensorflow: pip install https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-0.9.0rc0-cp27-none-linux_x86_64.whl
-  - I used tensorflow r0.9 because I knew it worked with Stanford's AMI with minimal changes
+  - I used Tensorflow r0.9 because I knew it worked with Stanford's AMI with minimal changes
 4. Stanford's AMI has CUDA 7.5 and CuDNN v3 installed, but you need CuDNN v4 or higher for tensorflow with GPU
   - Read about installing CuDNN v4 here: https://medium.com/@acrosson/installing-nvidia-cuda-cudnn-tensorflow-and-keras-69bbf33dce8a#.e0mlt5ic3
 5. Update Keras version and change backend to Tensorflow: 
@@ -63,7 +63,7 @@ Just for clarity, here are all the steps that I took to get the data:
 If you make it through that process, then you are at least half way there!
 
 ## Exploration
-Each image and steering angle is associated with a certain timestamp. I copied dolaameng’s approach, which was to average the steering angles within each timestamp. The datasets were also somewhat cleaned by Udacity (stoplights and lane changes removed) so the timestamps were not continuous. Considering this, I wrote a script (dataviewer.py) that plotted all of the steering angles for each consecutive series of timestamps.
+Each image and steering angle is associated with a certain timestamp. I copied dolaameng’s approach, which was to average the steering angles within each timestamp. The datasets were also somewhat cleaned by Udacity (stoplights and lane changes removed) so the timestamps were not continuous. Considering this, I wrote a script (data_explore.py) that plotted all of the steering angles for each consecutive series of timestamps.
 ![alt tag](https://github.com/chrisgundling/UdacitySDC-Challenge2/blob/master/Steering1.png)
 
 # Data Processing and Augmentation
