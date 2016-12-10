@@ -288,8 +288,7 @@ def data_generator(steering_log, image_log, image_folder, unique_list, gen_type=
                     if coin == 1:
                         images = read_images(image_folder, camera_select, image_stamps[i], image_size)
                     else:
-                        images = read_images_augment(image_folder, camera_select, image_stamps[i], image_size)
-                
+                        images = read_images_augment(image_folder, camera_select, image_stamps[i], image_size)         
                 else:
                     images = read_images(image_folder, camera_select, image_stamps[i], image_size)
 
