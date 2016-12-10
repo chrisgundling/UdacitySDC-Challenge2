@@ -90,7 +90,7 @@ I also applied the following approaches:
 Each of these techniques helped with overfitting and gave incremental improvements to my results.
 
 # Model
-This isn’t the most exciting architecture, but after trying a lot of different CNN models including transfer learning and NVIDIA’s model (https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/), the best results that I was able to produce for this challenge was with the following simple structure. The input image size was 128 X 128. It is similar to a VGG style with 3 X 3 conv layers followed by 2 X 2 max pooling with stride 2 and increasingly aggressive dropout towards the top layers. I’ve used similar models for other applications in the past as my ‘baseline’, but with a little tuning this one ended up performing best. 
+This isn’t the most exciting architecture, but after trying a lot of different CNN models including transfer learning and NVIDIA’s model (https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/), the best results that I was able to produce for this challenge was with the following simple structure. The input image size was 128 X 128 X 3. It is similar to a VGG style with 3 X 3 conv layers followed by 2 X 2 max pooling with stride 2 and increasingly aggressive dropout towards the top layers. I’ve used similar models for other applications in the past as my ‘baseline’, but with a little tuning this one ended up performing best. 
 ```
 x = Convolution2D(32, 3, 3, activation='relu', border_mode='same')(img_input)
 x = MaxPooling2D((2, 2), strides=(2, 2))(x)
@@ -124,7 +124,7 @@ model.compile(optimizer=Adam(lr=1e-4), loss = 'mse')
 | pool3 | 16 X 16 X 128 | 0.20 MB | 0 | 
 | FC1 | 1 X 1 X 1024 | 0.001 MB | 33554432 | 
 
-Based on the notes from Stanford's CS231n, this gives 8 MB (~2MB * 4 bytes) for each image on forward pass, 16 MB on backward pass and so using a batch size of 32 the max memory usage will be of 512 MB during the backward pass.
+Based on the notes from Stanford's CS231n, this gives 8 MB (~2MB * 4 bytes) for each image on forward pass and 16 MB on the backward pass.  Using a batch size of 32, the max memory usage will be 512 MB during the backward pass.
 
 Over 99% of the parameters in this model are in the final FC layer. Comparing the structure and parameters to NVIDIA’s model, at nearly 34 million parameters, this model has significantly more parameters than NVIDIA’s. Even with the dropout and various image augmentation techniques this model still overfits. I implemented early-stopping and ‘save best only’ in keras to combat this:
 ```
