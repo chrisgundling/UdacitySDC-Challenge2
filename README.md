@@ -147,8 +147,12 @@ https://github.com/udacity/self-driving-car/tree/master/challenges/challenge_2
 This video shows the results of the model for the test section on Highway 92 and was based on comma.ai's research:
 https://www.youtube.com/watch?v=huwkqWXVax8&t=131s       (The script is epoch_viewer.py)
 
+<img src="https://github.com/chrisgundling/UdacitySDC-Challenge2/blob/master/Round2_Image.png" width="320">
+
 Here is the model in the simulator for the behavioral cloning project, without training the model on any simulator data, only real word data, here is the result:
 https://www.youtube.com/watch?v=EcS5JPSH-sI
+
+<img src="https://github.com/chrisgundling/UdacitySDC-Challenge2/blob/master/Simulator_Image.png" width="320">
 
 *Note that I did have to change the sign on the steering angles and scale them due to the wider road/lanes in the simulator. Would be interesting to see if a model only trained in the simulator or on a combination of simulator/real world data could outperform the current model.
 
