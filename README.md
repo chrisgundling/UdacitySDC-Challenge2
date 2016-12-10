@@ -29,16 +29,16 @@ It sounded like a few of the teams had personal GPU setups, but my setup was pre
 2. Upload your dataset as a .tar using sftp
 3. Install Tensorflow: pip install https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-0.9.0rc0-cp27-none-linux_x86_64.whl
   - I used tensorflow r0.9 because I knew it worked with Stanford's AMI with minimal changes
-4. Stanford's AMI has CUDA 7.5 and CuDNN v3 installed, but you need CuDNN v4 or higher for tensorflow
+4. Stanford's AMI has CUDA 7.5 and CuDNN v3 installed, but you need CuDNN v4 or higher for tensorflow with GPU
   - Read about installing CuDNN v4 here: https://medium.com/@acrosson/installing-nvidia-cuda-cudnn-tensorflow-and-keras-69bbf33dce8a#.e0mlt5ic3
-5. Update Keras version and change backend to tensorflow: 
+5. Update Keras version and change backend to Tensorflow: 
   - git clone https://github.com/fchollet/keras.git
   - cd keras
   - python setup.py install
   - https://keras.io/backend/
 
 # Objective
-The basic goal was to use data collected from Udacity’s Self Driving Car to build a model that would predict the steering angles for the vehicle. This problem was well suited for Convolutional Neural Networks (CNNs) that take in the forward facing images from the vehicle and output a steering angle. This Challenge can be treated as a classification or regression problem. After some initial trials with classification (binning the steering angles into classes), regression proved more successful easier to implement for me. The success of each of the models was measured using the root mean square (RMS) error of the predicted steering versus the actual human steering. 
+The basic goal was to use data collected from Udacity’s Self Driving Car to build a model that would predict the steering angles for the vehicle. This problem was well suited for Convolutional Neural Networks (CNNs) that take in the forward facing images from the vehicle and output a steering angle. This Challenge can be treated as a classification or regression problem. After some initial trials with classification (binning the steering angles into classes), regression proved more successful and easier to implement for me. A model's success was measured using the root mean square (RMS) error of the predicted steering versus the actual human steering. 
 
 # Data
 The data collected from the Udacity car was images (mostly .jpg) from 3 cameras (left, center, right spaced 20 inches apart) and steering angles. There are several different data sets, but in the end I only ended up using the final two as some of the camera issues had been worked out by that point. The first one (I will refer to as Dataset 1) is approximately 3.5 hours of driving from El Camino Real and the second (Dataset 2) is a combination of highway driving and curvy driving over Highway 92 from San Mateo to Half Moon Bay. The links to the torrents for the datasets are here:
@@ -67,21 +67,21 @@ Each image and steering angle is associated with a certain timestamp. I copied d
 ![alt tag](https://github.com/chrisgundling/UdacitySDC-Challenge2/blob/master/Steering1.png)
 
 # Data Processing and Augmentation
-This is where most of the gains in my performance were made. I used slightly different approaches for Round 1 and Round 2, which are described below. Note that for Round 1, the Half Moon Bay dataset (lots of curves) had not yet been released.
+This is where most of the gains in my performance were made. I used different approaches for Round 1 and Round 2, which are described below. Note that for Round 1, the Half Moon Bay dataset (lots of curves) had not yet been released.
 
 ## Round 1 
-For this Round I used only the center camera data from dataset 1 to train my model. The key technique that I implemented during this Round was k-fold cross validation. After running through all the k-folds, I chose a single training set and validation set that gave me a close match the RMS error that I was seeing on the leaderboard. I re-trained the model with just this training and validation data. This allowed me to make informed changes to my model. You can see the plot of my validation performance below (Validation RMS = 0.028 versus Leaderboard test RMS=0.029). 
+For the first Round I used only the center camera data from Dataset 1 to train my model. The key technique that I implemented during this Round was k-fold cross validation. After running through all the k-folds, I chose a single training set and validation set that gave me a close match the RMS error that I was seeing on the leaderboard. I re-trained the model with just this training and validation data. This allowed me to make informed changes to my model. You can see the plot of my validation performance below (Validation RMS = 0.028 versus Leaderboard Test RMS=0.029). 
 ![alt tag](https://github.com/chrisgundling/UdacitySDC-Challenge2/blob/master/cnn_1600Test_Round1.png)
 
 I also applied these techniques:
-  1.	Cropped the center camera images to be 640 X 280 (removed most of the image above the horizon line).
+  1.	Cropped the center camera images to be 280 X 640 (removed most of the image above the horizon line).
   2.	Resized the images to 128 X 128. (Will discuss more in the model section)
 
 ## Round 2
 For Round 2 the Dataset 2 had also been released. This gave us data that had significantly more turns. One important requirement of Round 2 was that the model would still beat the benchmark for the Round 1 test set. Taking this in mind, I did a lot of trials using different amounts of data from each Dataset (1 and 2) to see how the performance would vary on each test set. There was a lot of straight driving data and not a lot of data with turns, so I ended up removing several of the straight driving sections of data from Dataset 1. 
 
 I also applied the following approaches:
-  1.	Cropped the camera images to be 640 X 280 (removed most of the image above the horizon line).
+  1.	Cropped the camera images to be 280 X 640 (removed most of the image above the horizon line).
   2.	Resized the images to 128 X 128 (Will discuss more in the model section)
   3.	Horizontal image flipping (Sign of steering angle also needs to be flipped)
   4.	Left/Right camera shifts (Use images from the left/right camera, but adjust the steering angle to move back to center within 2 seconds)
@@ -90,7 +90,7 @@ I also applied the following approaches:
 Each of these techniques helped with overfitting and gave incremental improvements to my results.
 
 # Model
-This isn’t the most exciting outcome, but after trying a lot of different CNN models including transfer learning and NVIDIA’s model (https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/), the best results that I was able to produce for this challenge was with the following simple structure. The input image size was 128 X 128. It is similar to a VGG style with 3 X 3 conv’s followed by 2 X 2 max pooling with stride 2 and increasingly aggressive dropout towards the top layers. I’ve used similar models for other applications in the past as my ‘baseline’, but with a little tuning this one ended up performing best. 
+This isn’t the most exciting architecture, but after trying a lot of different CNN models including transfer learning and NVIDIA’s model (https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/), the best results that I was able to produce for this challenge was with the following simple structure. The input image size was 128 X 128. It is similar to a VGG style with 3 X 3 conv layers followed by 2 X 2 max pooling with stride 2 and increasingly aggressive dropout towards the top layers. I’ve used similar models for other applications in the past as my ‘baseline’, but with a little tuning this one ended up performing best. 
 ```
 x = Convolution2D(32, 3, 3, activation='relu', border_mode='same')(img_input)
 x = MaxPooling2D((2, 2), strides=(2, 2))(x)
@@ -113,18 +113,20 @@ model = Model(input=img_input, output=y)
 model.compile(optimizer=Adam(lr=1e-4), loss = 'mse')
 ```
 ## Structure and Parameters
-| Layer | Size | Memory | # Parameters (Not Counting Bias) |
+| Layer | Size | Memory (Forward Pass) | # Parameters (Not Counting Bias) |
 | ---- | :------------------:| --------:| ---------------:|
 | input | 128 X 128 X 3 | 0.05 MB | 0 |
 | conv1 | 128 X 128 X 32 | 0.52 MB | 864 | 
 | pool1 | 64 X 64 X 32 | 0.13 MB | 0 | 
 | conv2 | 64 X 64 X 64 | 0.26 MB | 18432 | 
 | pool2 | 32 X 32 X 64 | 0.07 MB | 0 | 
-| conv3 | 128 X 128 X 32 | 0.80 MB | 73728 | 
-| pool3 | 128 X 128 X 32 | 0.20 MB | 0 | 
+| conv3 | 32 X 32 X 128 | 0.80 MB | 73728 | 
+| pool3 | 16 X 16 X 128 | 0.20 MB | 0 | 
 | FC1 | 1 X 1 X 1024 | 0.001 MB | 33554432 | 
 
-Over 99% of the parameters in this model are in the final FC layer. The model architecture has an interesting symmetry to it, as the conv2 layer creates a 64 X 64 X 64 cube. Comparing the structure and parameters to NVIDIA’s model, at nearly 34 million parameters, this model is significantly larger than NVIDIA’s. Even with the dropout and various image augmentation techniques this model still overfits. I implemented early-stopping and ‘save best only’ in keras to combat this:
+Based on the notes from Stanford's CS231n, this gives 8 MB (~2MB * 4 bytes) for each image on forward pass, 16 MB on backward pass and so using a batch size of 32 the max memory usage will be of 512 MB during the backward pass.
+
+Over 99% of the parameters in this model are in the final FC layer. Comparing the structure and parameters to NVIDIA’s model, at nearly 34 million parameters, this model has significantly more parameters than NVIDIA’s. Even with the dropout and various image augmentation techniques this model still overfits. I implemented early-stopping and ‘save best only’ in keras to combat this:
 ```
 callbacks = [EarlyStopping(monitor='val_loss', patience=3, verbose=0), 
                          ModelCheckpoint(filepath=os.path.join('weights_HMB_' + str(num_fold) + '.hdf5'), 
@@ -151,4 +153,4 @@ https://www.youtube.com/watch?v=EcS5JPSH-sI
 *Note that I did have to change the sign on the steering angles and scale them due to the wider road/lanes in the simulator. Would be interesting to see if a model only trained in the simulator or on a combination of simulator/real world data could outperform the current model.
 
 # Conclusions
-This was really fun and it sounds like Udacity is trying to go as far as they can with using image based techniques for their open source vehicle and will have similar competitions in the future. There are many approaches to improve the performance of this model. I’m looking forward to learning more skills in the Udacity course that I can implement.
+This was really fun and it sounds like Udacity is trying to go as far as they can with using image based techniques for their open source vehicle and will have similar competitions in the future. Hopefully this repository can serve at a launching point for other students to implement other approaches to improve the performance of this model. I’m looking forward to learning more skills in the Udacity course that I can implement.
