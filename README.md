@@ -8,9 +8,17 @@ If you haven’t already, I would start by reading the Challenge #2 description 
 https://medium.com/@maccallister.h/challenge-2-submission-guidelines-284ce6641c41#.p7d52u3o6
 
 # Running the Code in this Repository
-Once you have the data in the appropriate folder structure, you need epoch_data.py, epoch_model.py and epoch_test.py. Run the following command on CPU or GPU to start training a model:
+Training a Model: Once you have the data in the appropriate folder structure, you need epoch_data.py, epoch_model.py and epoch_test.py. Run the following command on CPU or GPU to start training a model:
 ```
 python epoch_test.py --dataset dataset/ --model cnn --nb-epoch 50 --resized-image-height 128 --resized-image-width 128
+```
+Testing a Model for Round 2: Once you have the test data in the /testset directory with the structure:
+```
+camera.csv  center/  final_example.csv
+```
+Run the following command to test a model:
+```
+python epoch_test_HMB.py --dataset testset/ --model cnn --nb-epoch 1 --resized-image-height 128 --resized-image-width 128
 ```
 # Acknowledgements 
 First off I need to acknowledge dolaameng, rwightman and comma.ai. 
