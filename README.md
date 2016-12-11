@@ -20,7 +20,7 @@ Testing a Model for Round 2: Once you have the test data in the /testset directo
 ```
 camera.csv  center/  final_example.csv
 ```
-You will need epoch_data_hmb.py, epoch_model.py and epoch_test_hmb.py. Run the following command on CPU or GPU to start training a model:
+You will need epoch_data_hmb.py, epoch_model.py and epoch_test_hmb.py. Run the following command on CPU or GPU to test a model:
 ```
 python epoch_test_HMB.py --dataset testset/ --model cnn --nb-epoch 1 --resized-image-height 128 --resized-image-width 128
 ```
